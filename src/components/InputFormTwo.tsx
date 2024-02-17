@@ -1,5 +1,9 @@
 // import useForm and typing utility FieldValues
-import { FieldValues, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
+
+// zod
+import { zodResolver } from "@hookform/resolvers/zod";
+import { TSignUpSchema, signUpSchema } from "../schemas/signUpSchema";
 
 // our actual form component
 export default function InputFormTwo() {
@@ -10,17 +14,17 @@ export default function InputFormTwo() {
 		handleSubmit,
 		formState: { errors, isSubmitting },
 		reset,
-		getValues,
-	} = useForm({
+	} = useForm<TSignUpSchema>({
 		defaultValues: {
 			email: "johnsmith@gmail.com",
 			password: "badpassword",
 			confirmPassword: "badpassword",
 		},
+    resolver: zodResolver(signUpSchema)
 	});
 
   // sometimes this is made a util
-  const onSubmit = async (data: FieldValues) => {
+  const onSubmit = async (data: TSignUpSchema) => {
     console.log(data);
     await new Promise((res) => setTimeout(res, 1000));
     reset();
@@ -37,9 +41,7 @@ export default function InputFormTwo() {
       
       {/* email input */}
 			<input
-				{...register("email", {
-					required: "Must enter a valid email address",
-				})}
+				{...register("email", )}
 				type="email"
 				className="rounded-md py-2 px-4 text-[16px]"
 				placeholder="Email"
@@ -50,13 +52,7 @@ export default function InputFormTwo() {
 
       {/* password input */}
 			<input
-				{...register("password", {
-					required: "Must enter a valid password",
-					minLength: { 
-            value: 8, 
-            message: "Password must be at least 8 characters" 
-          },
-				})}
+				{...register("password", )}
 				type="password"
 				className="rounded-md py-2 px-4 text-[16px]"
 				placeholder="Password"
@@ -65,16 +61,7 @@ export default function InputFormTwo() {
 
       {/* confirm password input */}
 			<input
-				{...register("confirmPassword", {
-					required: "Must enter the same valid, 5+ char long password",
-					minLength: { 
-            value: 5, 
-            message: "Must be >= 5 characters long!" 
-          },
-          // validate passwords matching using a value
-          validate: (value) => 
-            value === getValues("password") || "Passwords must match"
-				})}
+				{...register("confirmPassword", )}
 				type="password"
 				className="rounded-md py-2 px-4 text-[16px]"
 				placeholder="Confirm password"
