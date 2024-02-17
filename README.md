@@ -1,3 +1,11 @@
+# React Hook Form /w Zod demo
+
+Just a quick mock up for an input field built using vite, react hook form and zod.
+
+Three forms to demonstrate a vanilla, rhf-only and a rhf /w zod form.
+
+Zod schema that includes type safing inputs that can be used on both the client and server thanks to zod @hookforms/resolver which can be found [here](https://github.com/react-hook-form/resolvers?tab=readme-ov-file#zod).
+
 # React + TypeScript + Vite
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
